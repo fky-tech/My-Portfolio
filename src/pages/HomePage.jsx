@@ -2,11 +2,71 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 
-const HomePage = () => { 
+const HomePage = () => {
+  // Data arrays
+  const skillsData = [
+    { name: "HTML5", icon: <i className="fab fa-html5 text-3xl text-primary-400"></i>, level: 95 },
+    { name: "CSS3", icon: <i className="fab fa-css3-alt text-3xl text-primary-400"></i>, level: 90 },
+    { name: "JavaScript", icon: <i className="fab fa-js text-3xl text-primary-400"></i>, level: 85 },
+    { name: "React", icon: <i className="fab fa-react text-3xl text-primary-400"></i>, level: 80 },
+    { name: "Node.js", icon: <i className="fab fa-node-js text-3xl text-primary-400"></i>, level: 75 },
+    { name: "MongoDB", icon: <i className="fas fa-database text-3xl text-primary-400"></i>, level: 70 },
+    { name: "Python", icon: <i className="fab fa-python text-3xl text-primary-400"></i>, level: 65 },
+    { name: "Tailwind CSS", icon: <i className="fab fa-css3-alt text-3xl text-primary-400"></i>, level: 90 },
+    { name: "MySQL", icon: <i className="fas fa-database text-3xl text-primary-400"></i>, level: 75 },
+    { name: "Express.js", icon: <i className="fas fa-server text-3xl text-primary-400"></i>, level: 70 },
+  ];
+
+  const projectsData = [
+    {
+      title: "Hanos Engraving",
+      image: "HanosWebImg.png",
+      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+      description: "A fully responsive website for Hanos Engraving",
+      link: "https://hanosengravin.vercel.app/",
+      gitHubLink: "https://github.com/fky-tech/Hanos-Engraving",
+    },
+    {
+      title: "Red Harvest Honey",
+      image: "RedHarvestHoney.png",
+      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+      description: "A responsive website for Red Harvest Honey, an Ethiopian-based honey company.",
+      link: "https://red-harvest-pi.vercel.app/",
+      gitHubLink: "https://github.com/fky-tech/RED-HARVEST",
+    },
+    {
+      title: "Portfolio Website",
+      image: "PortfolioImg.png",
+      tech: ["React", "Tailwind CSS"],
+      description: "A fully responsive portfolio website to showcase my skills and projects",
+      link: "/#home",
+      gitHubLink: "https://github.com/fky-tech/My-Portfolio",
+    }
+  ];
+
+  const socialLinks = [
+    { name: "LinkedIn", icon: "linkedin-in", link: "https://www.linkedin.com/in/fky-tech" },
+    { name: "GitHub", icon: "github", link: "https://github.com/fky-tech" },
+    { name: "Twitter", icon: "twitter", link: "https://x.com/Fikreyoh?s=09" },
+    { name: "Instagram", icon: "instagram", link: "https://www.instagram.com/fkr.brk/" }
+  ];
+
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredProject, setHoveredProject] = useState(null);
+  const [visibleProjects, setVisibleProjects] = useState(2);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const loadMoreProjects = () => {
+    setVisibleProjects(prev => prev + 2);
+  }
+
+  const viewLess = () => {
+    setVisibleProjects(2);
+  }
+
+  const displayProjects = projectsData.slice(0, visibleProjects);
 
   // Track mouse position for cursor effect
   useEffect(() => {
@@ -41,6 +101,52 @@ const HomePage = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when clicking a link
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const nav = document.querySelector('nav');
+      if (mobileMenuOpen && nav && !nav.contains(event.target)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
+  const handleSubmit =  async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+      subject: e.target.subject.value,
+      message: e.target.message.value,
+    }
+
+    const response = await fetch('https://formspree.io/f/mzzvrlpb', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData) 
+    })
+
+    if (response.ok) {
+      alert("Success");
+      e.target.reset();
+    } else {
+      alert("Invalid Input");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-dark-900 text-gray-200 font-sans overflow-x-hidden">
@@ -97,6 +203,7 @@ const HomePage = () => {
             Fikreyohannes
           </motion.div>
           
+          {/* Desktop Navigation */}
           <ul className="hidden md:flex space-x-8 text-base font-medium">
             {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
               <li key={item}>
@@ -122,10 +229,49 @@ const HomePage = () => {
             ))}
           </ul>
           
-          <button className="md:hidden text-gray-300">
-            <i className="fas fa-bars text-xl"></i>
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden text-gray-300 focus:outline-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <i className="fas fa-times text-xl"></i>
+            ) : (
+              <i className="fas fa-bars text-xl"></i>
+            )}
           </button>
         </nav>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden bg-dark-800/95 backdrop-blur-sm overflow-hidden"
+            >
+              <ul className="flex flex-col space-y-4 px-6 py-4 items-center">
+                {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+                  <li key={item}>
+                    <a 
+                      href={`#${item}`}
+                      className={`block py-2 transition-all duration-300 ${
+                        activeSection === item 
+                          ? 'text-primary-400' 
+                          : 'text-gray-300 hover:text-primary-400'
+                      }`}
+                      onClick={handleNavClick}
+                    >
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
       
       {/* Hero Section */}
@@ -260,7 +406,7 @@ const HomePage = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
-          className="inline-block bg-dark-800/50 backdrop-blur-sm px-4 py-1 rounded-full mb-6 border border-primary-700/30"
+          className="inline-block bg-dark-800/50 backdrop-blur-sm px-4 py-1 rounded-lg mb-6 border border-primary-700/30"
         >
           <div className="text-primary-400 font-medium text-lg min-h-[28px]">
             <Typewriter
@@ -327,29 +473,45 @@ const HomePage = () => {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <div className="relative h-screen">
-        <div className="absolute bottom-16 right-80 transform -translate-x-1/2 w-8 h-14 border-[1px] border-primary-400 rounded-full z-20 flex items-center justify-center">
-          <motion.div
-            animate={{ y: [10, 5, 10] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="relative"
+      <div className="absolute bottom-0 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-xs mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5 }}
+          className="flex justify-center"
+        >
+          <a 
+            href="#about" 
+            className="w-10 h-14 flex flex-col items-center justify-start"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
           >
-            <a href="#about" className="w-12 h-16 flex items-center justify-center">
-              <motion.svg
+            <motion.div
+              className="w-6 h-6 mb-1 flex items-center justify-center"
+              animate={{ 
+                y: [0, 8, 0],
+                opacity: [1, 0.7, 1]
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4 text-primary-400"
+                className="w-5 h-5 text-primary-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, delay: 0.3 }}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </motion.svg>
-            </a>
-          </motion.div>
-        </div>
+              </svg>
+            </motion.div>
+            {/* <div className="text-xs text-primary-400 font-medium">Scroll</div> */}
+          </a>
+        </motion.div>
       </div>
     </section>
       
@@ -446,36 +608,7 @@ const HomePage = () => {
                     <p className="text-sm text-gray-400">Computer Science Undergraduate Student</p>
                   </div>
                 </motion.div>
-                
-                {/* <motion.div 
-                  className="flex items-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
-                >
-                  <div className="w-10 h-10 rounded-full bg-primary-900/30 flex items-center justify-center mr-4 flex-shrink-0">
-                    <i className="fas fa-laptop-code text-primary-400"></i>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Specialization</h4>
-                    <p className="text-sm text-gray-400">Full Stack Development</p>
-                  </div>
-                </motion.div> */}
               </div>
-              
-              {/* <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-                href="#projects"
-                className="inline-block bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/20"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
-              >
-                View My Projects
-              </motion.a> */}
             </motion.div>
           </div>
         </div>
@@ -564,7 +697,7 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Project Cards with staggered animation */}
-            {projectsData.map((project, index) => (
+            {displayProjects.map((project, index) => (
               <motion.div
                 key={project.title}
                 className="project-card rounded-2xl p-6 border border-dark-700 bg-gradient-to-b from-dark-800 to-dark-900"
@@ -611,21 +744,21 @@ const HomePage = () => {
                   <h3 className="text-xl font-semibold">{project.title}</h3>
                   <div className="flex space-x-3">
                     <a 
-                      href="#" 
+                      href={project.gitHubLink} 
                       className="text-gray-400 hover:text-primary-400 transition"
                       onMouseEnter={() => setIsHovering(true)}
                       onMouseLeave={() => setIsHovering(false)}
                     >
                       <i className="fab fa-github"></i>
                     </a>
-                    <a 
+                    {/* <a 
                       href="#" 
                       className="text-gray-400 hover:text-primary-400 transition"
                       onMouseEnter={() => setIsHovering(true)}
                       onMouseLeave={() => setIsHovering(false)}
                     >
                       <i className="fas fa-external-link-alt"></i>
-                    </a>
+                    </a> */}
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -641,14 +774,6 @@ const HomePage = () => {
                 <p className="text-gray-300 text-sm mb-6">
                   {project.description}
                 </p>
-                {/* <a 
-                  href="#" 
-                  className="text-primary-400 hover:text-primary-300 font-medium flex items-center"
-                  onMouseEnter={() => setIsHovering(true)}
-                  onMouseLeave={() => setIsHovering(false)}
-                >
-                  View Case Study <i className="fas fa-arrow-right ml-2 text-sm"></i>
-                </a> */}
               </motion.div>
             ))}
           </div>
@@ -660,14 +785,23 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
           >
-            <a 
-              href="#" 
-              className="inline-block border border-primary-500 text-primary-400 hover:bg-primary-500/10 font-medium px-8 py-3.5 rounded-lg transition-all duration-300"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-            >
-              View All Projects
-            </a>
+            {visibleProjects <= 2 ? (
+              <button
+                onClick={loadMoreProjects}
+                className="inline-block border border-primary-500 text-primary-400 hover:bg-primary-500/10 font-medium px-8 py-3.5 rounded-lg transition-all duration-300"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+              >
+                View All Projects
+              </button>
+            ) : <button
+                  onClick={viewLess}
+                  className="inline-block border border-primary-500 text-primary-400 hover:bg-primary-500/10 font-medium px-8 py-3.5 rounded-lg transition-all duration-300"
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                >
+                  View Less
+                </button>}
           </motion.div>
         </div>
       </section>
@@ -770,7 +904,7 @@ const HomePage = () => {
                   {socialLinks.map((social, index) => (
                     <motion.a
                       key={social.name}
-                      href="#"
+                      href={social.link}
                       className="w-12 h-12 rounded-full bg-dark-700 flex items-center justify-center text-gray-400 hover:text-primary-400 hover:bg-primary-900/20 transition"
                       whileHover={{ y: -5 }}
                       initial={{ opacity: 0 }}
@@ -787,7 +921,8 @@ const HomePage = () => {
             </motion.div>
             
             {/* Contact Form */}
-            <motion.form 
+            <motion.form
+              onSubmit={handleSubmit}
               className="space-y-6"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -799,9 +934,10 @@ const HomePage = () => {
                   <label htmlFor="name" className="block text-gray-300 mb-2">Name</label>
                   <input 
                     type="text" 
-                    id="name" 
+                    id="name"
                     placeholder="Your name" 
                     className="w-full bg-dark-700 border border-dark-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                    name="name"
                   />
                 </div>
                 <div>
@@ -811,6 +947,7 @@ const HomePage = () => {
                     id="email" 
                     placeholder="Your email" 
                     className="w-full bg-dark-700 border border-dark-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                    name="email"
                   />
                 </div>
               </div>
@@ -821,6 +958,7 @@ const HomePage = () => {
                   id="subject" 
                   placeholder="Subject" 
                   className="w-full bg-dark-700 border border-dark-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  name="subject"
                 />
               </div>
               <div>
@@ -830,6 +968,7 @@ const HomePage = () => {
                   rows="5" 
                   placeholder="Your message" 
                   className="w-full bg-dark-700 border border-dark-600 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  name="message"
                 ></textarea>
               </div>
               <motion.button 
@@ -860,7 +999,7 @@ const HomePage = () => {
               {socialLinks.map(social => (
                 <a 
                   key={social.name}
-                  href="#" 
+                  href={social.link} 
                   className="text-gray-500 hover:text-primary-400 transition"
                   onMouseEnter={() => setIsHovering(true)}
                   onMouseLeave={() => setIsHovering(false)}
@@ -873,13 +1012,13 @@ const HomePage = () => {
           
           <div className="border-t border-dark-800 mt-8 pt-8 text-center text-gray-500 text-sm">
             <p>© 2025 Fikreyohannes Biruk. All rights reserved.</p>
-            <motion.p 
+            {/* <motion.p 
               className="mt-2"
               animate={{ opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              {/* Designed and built with ❤️ in Ethiopia */}
-            </motion.p>
+              Designed and built with ❤️ in Ethiopia
+            </motion.p> */}
           </div>
         </div>
       </footer>
@@ -887,43 +1026,4 @@ const HomePage = () => {
   );
 }
 
-// Data arrays
-const skillsData = [
-  { name: "HTML5", icon: <i className="fab fa-html5 text-3xl text-primary-400"></i>, level: 95 },
-  { name: "CSS3", icon: <i className="fab fa-css3-alt text-3xl text-primary-400"></i>, level: 90 },
-  { name: "JavaScript", icon: <i className="fab fa-js text-3xl text-primary-400"></i>, level: 85 },
-  { name: "React", icon: <i className="fab fa-react text-3xl text-primary-400"></i>, level: 80 },
-  { name: "Node.js", icon: <i className="fab fa-node-js text-3xl text-primary-400"></i>, level: 75 },
-  { name: "MongoDB", icon: <i className="fas fa-database text-3xl text-primary-400"></i>, level: 70 },
-  { name: "Python", icon: <i className="fab fa-python text-3xl text-primary-400"></i>, level: 65 },
-  { name: "Tailwind CSS", icon: <i className="fab fa-css3-alt text-3xl text-primary-400"></i>, level: 90 },
-  { name: "MySQL", icon: <i className="fas fa-database text-3xl text-primary-400"></i>, level: 75 },
-  { name: "Express.js", icon: <i className="fas fa-server text-3xl text-primary-400"></i>, level: 70 },
-];
-
-
-const projectsData = [
-  {
-    title: "E-Commerce Platform",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
-    tech: ["React", "Node.js", "Express.js", "MongoDB"],
-    description: "A full-featured e-commerce platform with product listings, shopping cart, user authentication, and payment processing.",
-    link: "",
-  },
-  {
-    title: "Task Management App",
-    image: "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-    tech: ["React", "Redux", "Firebase", "Tailwind CSS"],
-    description: "A responsive task management application with drag-and-drop functionality, real-time updates, and team collaboration features.",
-    link: ""
-  }
-];
-
-const socialLinks = [
-  { name: "LinkedIn", icon: "linkedin-in" },
-  { name: "GitHub", icon: "github" },
-  { name: "Twitter", icon: "twitter" },
-  { name: "Instagram", icon: "instagram" }
-];
-
-export default HomePage
+export default HomePage;

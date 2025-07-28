@@ -1,11 +1,11 @@
-import RouteHandler from './Route/RouteHandler.jsx'
+import RoutesHandler from "./route/RoutesHandler"
 
 const App = () => {
   return (
     <div>
       {/* <ScrollEffects /> */}
       {/* <StarryBackground /> */}
-      <RouteHandler />
+      <RoutesHandler />
     </div>
   )
 }

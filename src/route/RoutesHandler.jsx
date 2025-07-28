@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom"
-import HomePage from "../Pages/HomePage"
+import HomePage from "../pages/HomePage"
 
-const RouteHandler = () => {
+const RoutesHandler = () => {
   return (
     <main>
       <Routes>
@@ -11,4 +11,4 @@ const RouteHandler = () => {
   )
 }
 
-export default RouteHandler
+export default RoutesHandler

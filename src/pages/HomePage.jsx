@@ -411,7 +411,7 @@ const HomePage = () => {
           <div className="text-primary-400 font-medium text-lg min-h-[28px]">
             <Typewriter
               options={{
-                strings: ['Front End Developer', 'Back End Developer', 'Full Stack Developer'],
+                strings: ['Full Stack Developer', 'Front End Developer', 'Back End Developer'],
                 autoStart: true,
                 loop: true,
                 delay: 50,
@@ -584,7 +584,7 @@ const HomePage = () => {
                 </motion.p>
                 
                 <motion.p 
-                  className="text-lg leading-relaxed text-gray-300 mb-8"
+                  className="text-lg leading-relaxed text-gray-300 mb-8 text-justify"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}

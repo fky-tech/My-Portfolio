@@ -34,6 +34,38 @@ const HomePage = () => {
       link: "https://red-harvest-pi.vercel.app/",
       gitHubLink: "https://github.com/fky-tech/RED-HARVEST",
     },
+    // {
+    //   title: "Eastside Agro Industry",
+    //   image: "EastSide.png",
+    //   tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+    //   description: "A fully responsive, multilingual website for Eastside Agro Industry",
+    //   link: "https://eastside-nine.vercel.app/",
+    //   gitHubLink: "https://github.com/fky-tech/Eastside",
+    // },
+    {
+      title: "Yeadah Gemstone PLC",
+      image: "YadahGemstone.png",
+      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+      description: "A fully responsive website for Yadah Gemstone PLC",
+      link: "https://yadah-gemstone.vercel.app/",
+      gitHubLink: "https://github.com/fky-tech/Yadah-Gemstone",
+    },
+    {
+      title: "Alpha Medonus",
+      image: "AlphaMedonus.png",
+      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+      description: "A fully responsive website for Alpha Medonus",
+      link: "https://alpha-medonus-coffee.vercel.app/",
+      gitHubLink: "https://github.com/fky-tech/Alpha_Medonus_Coffee",
+    },
+    {
+      title: "Orca Advertising",
+      image: "OrcaAdvert.png",
+      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+      description: "A fully responsive website for Orca Advertising",
+      link: "https://orca-advertising.vercel.app/",
+      gitHubLink: "https://github.com/fky-tech/Orca-Advertising",
+    },
     {
       title: "Portfolio Website",
       image: "PortfolioImg.png",
@@ -59,7 +91,7 @@ const HomePage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const loadMoreProjects = () => {
-    setVisibleProjects(prev => prev + 2);
+    setVisibleProjects(prev => prev + (projectsData.length-2));
   }
 
   const viewLess = () => {

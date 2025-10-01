@@ -31,7 +31,7 @@ const HomePage = () => {
       image: "RedHarvestHoney.png",
       tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
       description: "A responsive website for Red Harvest Honey, an Ethiopian-based honey company.",
-      link: "https://red-harvest-pi.vercel.app/",
+      link: "https://redharvesthoney.com/",
       gitHubLink: "https://github.com/fky-tech/RED-HARVEST",
     },
     // {

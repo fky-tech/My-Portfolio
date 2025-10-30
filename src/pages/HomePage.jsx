@@ -113,7 +113,8 @@ const HomePage = () => {
   // Handle scroll to update active section
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      // const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects'];
       const scrollPosition = window.scrollY + 200;
       
       for (const section of sections) {
@@ -237,7 +238,8 @@ const HomePage = () => {
           
           {/* Desktop Navigation */}
           <ul className="hidden md:flex space-x-8 text-base font-medium">
-            {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+            {/* {['home', 'about', 'skills', 'projects', 'contact'].map((item) => ( */}
+            {['home', 'about', 'skills', 'projects'].map((item) => (
               <li key={item}>
                 <a 
                   href={`#${item}`}
@@ -285,7 +287,8 @@ const HomePage = () => {
               className="md:hidden bg-dark-800/95 backdrop-blur-sm overflow-hidden"
             >
               <ul className="flex flex-col space-y-4 px-6 py-4 items-center">
-                {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+                {/* {['home', 'about', 'skills', 'projects', 'contact'].map((item) => ( */}
+                {['home', 'about', 'skills', 'projects'].map((item) => (
                   <li key={item}>
                     <a 
                       href={`#${item}`}
@@ -480,7 +483,7 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
         >
-          <motion.a
+          {/* <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onMouseEnter={() => setIsHovering(true)}
@@ -489,7 +492,7 @@ const HomePage = () => {
             className="px-8 py-3.5 bg-gradient-to-r from-primary-500 to-cyan-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
           >
             Contact Me
-          </motion.a>
+          </motion.a> */}
           
           <motion.a
             whileHover={{ scale: 1.05 }}
@@ -839,7 +842,7 @@ const HomePage = () => {
       </section>
       
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 bg-dark-800 relative">
+      {/* <section id="contact" className="py-20 px-6 bg-dark-800 relative">
         <div className="max-w-6xl mx-auto">
           <motion.div 
             className="text-center mb-16"
@@ -862,7 +865,6 @@ const HomePage = () => {
           </motion.div>
           
           <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -952,7 +954,6 @@ const HomePage = () => {
               </motion.div>
             </motion.div>
             
-            {/* Contact Form */}
             <motion.form
               onSubmit={handleSubmit}
               className="space-y-6"
@@ -1016,18 +1017,20 @@ const HomePage = () => {
             </motion.form>
           </div>
         </div>
-      </section>
+      </section> */}
       
       {/* Footer */}
       <footer className="bg-dark-900 border-t border-dark-800 py-12 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          {/* <div className="flex flex-col md:flex-row justify-between items-center"> */}
+          <div className="flex flex-col md:flex-row justify-center items-center">
             <div className="mb-6 md:mb-0">
               <h3 className="text-xl font-bold font-heading">Fikreyohannes Biruk</h3>
-              <p className="text-gray-500">Full Stack Developer</p>
+              {/* <p className="text-gray-500">Full Stack Developer</p> */}
+              <p className="text-gray-500 text-center">Full Stack Developer</p>
             </div>
             
-            <div className="flex space-x-6">
+            {/* <div className="flex space-x-6">
               {socialLinks.map(social => (
                 <a 
                   key={social.name}
@@ -1039,18 +1042,11 @@ const HomePage = () => {
                   <i className={`fab fa-${social.icon}`}></i>
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
           
           <div className="border-t border-dark-800 mt-8 pt-8 text-center text-gray-500 text-sm">
             <p>© 2025 Fikreyohannes Biruk. All rights reserved.</p>
-            {/* <motion.p 
-              className="mt-2"
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              Designed and built with ❤️ in Ethiopia
-            </motion.p> */}
           </div>
         </div>
       </footer>

@@ -19,20 +19,20 @@ const HomePage = () => {
 
   const projectsData = [
     {
-      title: "Hanos Engraving",
-      image: "HanosWebImg.png",
-      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
-      description: "A fully responsive website for Hanos Engraving",
-      link: "https://hanosengravin.vercel.app/",
-      gitHubLink: "https://github.com/fky-tech/Hanos-Engraving",
-    },
-    {
       title: "Red Harvest Honey",
       image: "RedHarvestHoney.png",
       tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
       description: "A responsive website for Red Harvest Honey, an Ethiopian-based honey company.",
       link: "https://redharvesthoney.com/",
       gitHubLink: "https://github.com/fky-tech/RED-HARVEST",
+    },
+    {
+      title: "Hanos Engraving",
+      image: "HanosWebImg.png",
+      tech: ["HTML5", "CSS3", "Tailwind CSS", "JavaScript"],
+      description: "A fully responsive website for Hanos Engraving",
+      link: "https://hanosengravin.vercel.app/",
+      gitHubLink: "https://github.com/fky-tech/Hanos-Engraving",
     },
     // {
     //   title: "Eastside Agro Industry",
